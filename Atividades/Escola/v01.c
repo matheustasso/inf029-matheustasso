@@ -2,7 +2,7 @@
 	#include <stdlib.h>
 
 
-	/*Escola-V01.c
+	/*V01.c
 	Aluno: Matheus Tasso
 	Orientador: Renato Novais
 	*/
