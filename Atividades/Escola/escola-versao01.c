@@ -65,7 +65,7 @@
 		printf("Enter teacher:\n");
 		scanf("%s ", m.teacher);
 	}
-
+ 
 	void registerstudent() {
 		printf("Register student: \n");
 		register n;
