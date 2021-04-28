@@ -261,7 +261,7 @@ int q5(int num){
 }
 
 /*
- Q5 = ocorrência de um número em outro
+ Q6 = ocorrência de um número em outro
  @objetivo
     Verificar quantidade de vezes da ocorrência de um número em outro
  @entrada
