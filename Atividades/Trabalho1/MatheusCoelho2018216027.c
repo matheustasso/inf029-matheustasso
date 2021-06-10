@@ -27,6 +27,39 @@
 #include <ctype.h>
 
 /*
+## função utilizada para testes  ##
+ somar = somar dois valores
+@objetivo
+    Somar dois valores x e y e retonar o resultado da soma
+@entrada
+    dois inteiros x e y
+@saida
+    resultado da soma (x + y)
+ */
+int somar(int x, int y)
+{
+    int soma = 0;
+    soma = x + y;
+    return soma;
+}
+
+/*
+## função utilizada para testes  ##
+ fatorial = fatorial de um número
+@objetivo
+    calcular o fatorial de um número
+@entrada
+    um inteiro x
+@saida
+    fatorial de x -> x!
+ */
+int fatorial(int x)
+{ //função utilizada para testes
+    int fat = 1;
+    return fat;
+}
+
+/*
  Q1 = validar data
 @objetivo
     Validar uma data
