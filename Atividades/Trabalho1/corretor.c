@@ -176,7 +176,7 @@ void testQ5()
     printf("%d\n", q5(3) == 3);
     printf("%d\n", q5(5430) == 345);
 }
- 
+
 void testQ6()
 {
     printf("%d\n", q6(34567368, 3) == 2);
