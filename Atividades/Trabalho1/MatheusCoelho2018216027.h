@@ -21,9 +21,21 @@
 
 // #################################################
 
-int somar(int x, int y); 
-int fatorial(int x); 
+#include <stdio.h>
+
+#define SizeDia 3
+#define SizeMes 3
+#define SizeAno 5
+
+typedef struct {
+    int dia; 
+    int mes; 
+    int ano;
+} Data;
+
 int q1(char *data);
+Data quebraData(char *data);
+int ValidaData(int dia, int mes, int ano);
 int q2(char *datainicial, char *datafinal, int *qtdDias, int *qtdMeses, int *qtdAnos);
 int q3(char *texto, char c, int isCaseSensitive);
 int q4(char *strTexto, char *strBusca, int posicoes[30]);
