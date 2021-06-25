@@ -16,110 +16,93 @@
 //  Matrícula: 2018216027
 //  Semestre: 2º
 
-//  Copyright © 2016 Renato Novais. All rights reserved.
-// Última atualização: 20/06/2018 - 19/08/2016
-
-// #################################################
-
-#include <stdio.h> 
-#include <string.h>
+#include <stdio.h>
 #include <stdlib.h>
-#include "MatheusCoelho2018216027.h"
+
+int somar(int x, int y) {
+    int soma = 0;
+    soma = x + y;
+    return soma;
+}
+
+int fatorial(int x){ 
+    int fat = 1;
+    return fat;
+}
+
+int teste(int a){
+    int val;
+    if (a == 2)
+        val = 3;
+    else
+        val = 4;
+
+    return val;
+}
 
 /*
  Q1 = validar data
 @objetivo
     Validar uma data
 @entrada
-    uma string data. Formatos que devem ser aceitos: dd/mm/aaaa, onde dd = dia, mm = mês, e aaaa, igual ao ano.
-    dd em mm podem ter apenas um digito, e aaaa podem ter apenas dois digitos.
+    uma string data. Formatos que devem ser aceitos: dd/mm/aaaa, onde dd = dia, mm = mês, e aaaa, igual ao ano. dd em mm podem ter apenas um digito, e aaaa podem ter apenas dois digitos.
 @saida
     0 -> se data inválida
     1 -> se data válida
+ @restrições
+    Não utilizar funções próprias de string (ex: strtok)   
+    pode utilizar strlen para pegar o tamanho da string
  */
 
-int q1(char *data){
-    int data_valida = 1;
+int q1(char *datanum){
+    int datavalida = 1;
+    int i, j, k, dia, mes, ano;
+    char sDia[3], sMes[3], sAno[5];
+    
+    for(i =0; datanum[i] != '/'; i++){
+        sDia[i] = datanum[i];
+    }
+    dia = atoi(sDia);
 
-    Data data_quebrada = quebraData(data);
-    datavalida = ValidaData(dataquebrada.dia,dataquebrada.mes,dataquebrada.ano);
+    for(i++, j =0; datanum[i] != '/'; j++, i++){
+        sMes[j] = datanum[i];
+    }
+    mes = atoi(sMes);
 
-    return (data_valida);
-}
+    for(i++, k =0; datanum[i] != '\0'; k++, i++){
+        sAno[k] = datanum[i];
+    }
+    ano = atoi(sAno);
 
-Data quebraData(char *data){
-    char dia[3];
-	char mes[3];
-	char ano[5];
-	int barra=0, k=0, i=0;
-
-	Data datainteira;
-
-	while(data[i]!='\0'){
-        if(data[i]=='/'){
-            barra++;
-            k=0;
-        }
-        if(barra==0){
-            dia[k]=data[i];
-            dia[k+1]='\0';
-            k++;
-        }
-        else if(barra == 1){
-            if(data[i]=='/'){
-                i++;
+    if (ano >= 0 && ano < 10000){
+        if (mes >= 1 && mes <13) {
+            if (dia >= 1 && dia < 32 && mes == 1 || mes == 3 || mes == 5 || mes == 7 || mes == 8 || mes == 10 || mes == 12)
+            {
+                datavalida = 1;
             }
-            mes[k]=data[i];
-            mes[k+1]='\0';
-            k++;
-        }
-        else if(barra == 2){
-            if(data[i]=='/'){
-                i++;
+            else if (dia >= 1 && dia < 31 && mes == 4 || mes == 6 || mes == 9 || mes == 11)
+            {
+                datavalida = 1;
             }
-            ano[k]=data[i];
-            ano[k+1]='\0';
-            k++;
+            else if (dia >= 1 && dia < 29 && mes == 2){
+                datavalida = 1;
+            }
+            else if (dia == 29 && mes == 2 && (ano % 4 == 0 && ano % 100 != 0)|| ano % 400 == 0){
+                datavalida = 1;
+            }
+            else{
+                datavalida = 0;
+            }        
         }
-        i++;
+        else{
+            datavalida = 0;
+        }
     }
 
-	datainteira.dia=atoi(dia);
-	datainteira.mes=atoi(mes);
-	datainteira.ano=atoi(ano);
-
-    if (datainteira.ano>=0 && datainteira.ano<=18){
-        datainteira.ano += 2000;
-    }
-    else if (datainteira.ano>=19 && datainteira.ano<=99){
-        datainteira.ano += 1900;
-    }
-
-    return datainteira;
-}
-
-int ValidaData(int dia, int mes, int ano){
-    int validade;
-
-	if (mes > 12 || mes < 1 || dia < 1 || dia > 31){
-		validade = 0;
-	}
-	else if ((dia < 1 && dia > 31) && (mes == 1||mes == 3||mes == 5||mes == 7||mes == 8||mes == 10||mes == 12)) {
-		validade = 0;
-	}
-	else if ((dia < 1 && dia > 30) && (mes == 4|| mes == 6 || mes == 9 || mes == 11)){
-        validade = 0;
-    }
-	else if (ano % 400 == 0 || (ano % 4 == 0 && ano % 100 != 0)) {
-		if (mes == 2 && dia > 29) {
-			validade = 0;
-		}
-	}
-	else if (mes == 2 && dia > 28) {
-		validade = 0;
-	}
-
-	return validade;
+    if (datavalida)
+        return 1;
+    else
+        return 0;
 }
 
 /*
@@ -127,9 +110,9 @@ int ValidaData(int dia, int mes, int ano){
  @objetivo
     Calcular a diferença em anos, meses e dias entre duas datas
  @entrada
-    uma string datainicial, uma string datafinal. Além disso, a função tem três parâmetros qtdDias, qtdMeses e qtdAnos.
-    Esses três parâmetros devem ser utilizados para guardar os resultados dos cálculos. Na chamada da função deve passar
-    o valor -1 para os três
+    uma string datainicial, uma string datafinal. Além disso, a função tem três parâmetros qtdDias, qtdMeses e qtdAnos. 
+    Esses três parâmetros devem ser utilizados para guardar os resultados dos cálculos. 
+    Na chamada da função deve passar o valor -1 para os três
  @saida
     1 -> cálculo de diferença realizado com sucesso
     2 -> datainicial inválida
@@ -137,57 +120,59 @@ int ValidaData(int dia, int mes, int ano){
     4 -> datainicial > datafinal
  */
 int q2(char *datainicial, char *datafinal, int *qtdDias, int *qtdMeses, int *qtdAnos){
-   /*  int nDias, nMeses, nAnos;
-    nDias = nDias;
-    nMeses = nMeses;
-    nAnos = nAnos;
+
+    int nDias, nMeses, nAnos;
+    if (q1(datainicial) == 0)
+        return 2;
+
+    nDias = 4;
+    nMeses = 10;
+    nAnos = 2;
     *qtdDias = nDias;
     *qtdAnos = nAnos;
     *qtdMeses = nMeses;
-    //printf("%s\n", datainicial);
-    //printf("%s\n", datafinal);
-    return 1;
-   */
-}
 
+    return 1;
+}
 
 /*
  Q3 = encontrar caracter em texto
  @objetivo
     Pesquisar quantas vezes um determinado caracter ocorre em um texto
  @entrada
-    uma string texto, um caracter c e um inteiro que informa se é uma pesquisa Case Sensitive ou não. Se isCaseSensitive = 1, a pesquisa deve considerar diferências entre maiúsculos e minúsculos.
-        Se isCaseSensitive != 1, a pesquisa não deve  considerar diferências entre maiúsculos e minúsculos.
+    uma string texto, um caracter c e um inteiro que informa se é uma pesquisa Case Sensitive ou não. 
+    Se isCaseSensitive = 1, a pesquisa deve considerar diferenças entre maiúsculos e minúsculos.
+        Se isCaseSensitive != 1, a pesquisa não deve  considerar diferenças entre maiúsculos e minúsculos.
  @saida
     Um número n >= 0.
  */
 int q3(char *texto, char c, int isCaseSensitive){
-    int cont = 0; 
-    int tam = 0;
-	int qtdOcorrencias = 0;
 
-	tam = strlen(texto);
+    int qtdOcorrencias = 0;
+    int i =0;
 
-	if (isCaseSensitive == 1){
-		cont = 0;
+    if(isCaseSensitive == 0){
+        while (texto[i] != '\0') {
+            if(texto[i] != '\n') {   
+                if (texto[i] == c) {
+                    qtdOcorrencias++; 
+                }
+            }
+            i++;
+        }
+    }
 
-		while(cont <= tam){
-			if(c == texto[cont]){
-				qtdOcorrencias++;
-			}
-		cont++;
- 		}
-	}
-	else if (isCaseSensitive != 1){
-				cont = 0;
-		while(cont <= tam){
-			if(texto[cont] == toupper(c) || texto[cont] == tolower(c)){
-				qtdOcorrencias++;
-			}
-		    	cont++;
- 		}
-	}
-   
+    if(isCaseSensitive == 1){
+        while (texto[i] != '\0') {
+            if(texto[i] != '\n') {   
+                if (texto[i] == c) {
+                    qtdOcorrencias++; 
+                }
+            }
+            i++;
+        }
+    }
+
     return qtdOcorrencias;
 }
 
@@ -196,7 +181,8 @@ int q3(char *texto, char c, int isCaseSensitive){
  @objetivo
     Pesquisar todas as ocorrências de uma palavra em um texto
  @entrada
-    uma string texto base (strTexto), uma string strBusca e um vetor de inteiros (posicoes) que irá guardar as posições de início e fim de cada ocorrência da palavra (strBusca) no texto base (texto).
+    uma string texto base (strTexto), uma string strBusca e um vetor de inteiros (posicoes) que 
+    irá guardar as posições de início e fim de cada ocorrência da palavra (strBusca) no texto base (texto).
  @saida
     Um número n >= 0 correspondente a quantidade de ocorrências encontradas.
     O vetor posicoes deve ser preenchido com cada entrada e saída correspondente. Por exemplo, se tiver uma única ocorrência, a posição 0 do vetor deve ser preenchido com o índice de início do texto, e na posição 1, deve ser preenchido com o índice de fim da ocorrencias. Se tiver duas ocorrências, a segunda ocorrência será amazenado nas posições 2 e 3, e assim consecutivamente. Suponha a string "Instituto Federal da Bahia", e palavra de busca "dera". Como há uma ocorrência da palavra de busca no texto, deve-se armazenar no vetor, da seguinte forma:
@@ -206,33 +192,8 @@ int q3(char *texto, char c, int isCaseSensitive){
         O retorno da função, n, nesse caso seria 1;
  */
 int q4(char *strTexto, char *strBusca, int posicoes[30]){
-    int iCont, jCont, kCont, xCont, yCont, Cont01, Cont02, Cont3;
-    int qtdOcorrencias; 
-    
-    xCont = yCont = jCont = kCont = Cont01 = Cont02 = qtdOcorrencias = 0;
+    int qtdOcorrencias = -1;
 
-    if(strlen(strBusca) == 1){
-        for(iCont = 0; strTexto[i]!='\0'; iCont++){
-            if(strTexto[iCont] == strBusca[0])
-                Cont01++;
-        }
-        return Cont01;
-    }
-
-    for(iCont = 0; strTexto[iCont]!='\0'; iCont++){
-        Cont01 = 0;
-    if(strTexto[iCont] == -95 || strTexto[iCont] == -87 || strTexto[iCont] == -83 || strTexto[iCont] == -77 || strTexto[iCont] == -70 || strTexto[iCont] == -93 || strTexto[iCont] == -89)
-       Cont3++;
-        if(strTexto[iCont] == strBusca[jCont]){
-            for(xCont = iCont + 1, kCont = jCont + 1; strBusca[kCont] == strTexto[xCont]; xCont++ ,kCont++)
-                Cont01++;
-        }
-        if(Cont01 == strlen(strBusca)-1){
-            posicoes[yCont++] = (iCont + 1)- Cont3;
-            posicoes[yCont++] = xCont - Cont3;
-            qtdOcorrencias++;
-        }
-    }
     return qtdOcorrencias;
 }
 
@@ -247,21 +208,20 @@ int q4(char *strTexto, char *strBusca, int posicoes[30]){
  */
 
 int q5(int num){
-    int retorno = 0;
-    int i = 1;
+    int resto, invert = 0;
 
-    while (i <= n)
-    {
-        retorno = retorno * 10;
-        retorno = retorno + (n % (i*10)- n % i)/ i;
-        i = i * 10;
+    while(num != 0){
+        resto = num%10; 
+        invert =  invert*10 + resto; 
+        num = num/10; 
     }
-
-    return retorno;
+    num = invert;
+    
+    return num;
 }
 
 /*
- Q5 = ocorrência de um número em outro
+ Q6 = ocorrência de um número em outro
  @objetivo
     Verificar quantidade de vezes da ocorrência de um número em outro
  @entrada
@@ -271,57 +231,6 @@ int q5(int num){
  */
 
 int q6(int numerobase, int numerobusca){
-    int qtdOcorrencias = 0;
-    int Base[300];
-    int Busca[300];
-    int contBase = iCont = jCont = controle = contBusca = 0;
-
-	while(numerobase >= 0){
-        //preenchendo vetor de int numerobase
-		if(numerobase < 10 && numerobase >= 0 ){
-			Base[contBase] = numerobase;
-			break;
-		}
-		else{
-			Base[contBase] = numerobase % 10;
-			numerobase = numerobase / 10;
-			contBase++;
-		}
-	}
-	while(numerobusca >= 0){
-        //preenchendo vetor numerobusca
-		if(numerobusca < 10 && numerobase >= 0){
-			Busca[contBusca] = numerobusca;
-			break;
-		}
-		else{
-			Busca[contBusca] = numerobusca % 10;
-			numerobusca = numerobusca / 10;
-			contBusca++;
-		}
-	}
-	//buscando ocorrencias 
-	for (iCont = 0; iCont <= contBase; ++iCont){
-		if(contBusca == 0){
-			if (Busca[0] == Base[iCont]){
-				qtdOcorrencias++;
-			}
-		}
-		else{
-			if(Busca[jCont] == Base[iCont]){
-				controle = 1;
-				jCont++;
-			}
-			else if (Busca[jCont] != Base[iCont]){
-				controle = 0;
-				jCont = 0;
-			}
-			if(controle == 1 && jCont == contBusca){
-				controle = 0;
-				jCont = 0;
-				qtdOcorrencias++;
-			}
-		}
-	}
+    int qtdOcorrencias;
     return qtdOcorrencias;
 }
