@@ -32,7 +32,3 @@ void inicializar(PRINCIPAL *vetor_principal);
 void finalizar(PRINCIPAL *vetor_principal);
 int verificaEstrutura(PRINCIPAL *vetor_principal, int posicao);
 int menu();
-
-/*
-criarEstruturaAuxiliar {vetor[posicao].auxiliar = malloc (tamanho);}
-*/
